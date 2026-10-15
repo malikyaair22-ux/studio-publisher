@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Studio Publisher — Schedule your TikTok videos</title>
+<style>
+  :root { --bg: #0f0f14; --card: #17171f; --text: #f1f1f4; --muted: #a7a7b3; --accent: #fe2c55; --line: #26262f; }
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); margin: 0; line-height: 1.65; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 3rem 1.25rem 4rem; }
+  header { text-align: center; margin-bottom: 2.5rem; }
+  .logo { width: 72px; height: 72px; border-radius: 18px; background: linear-gradient(135deg, #fe2c55, #7a1fa2); display: inline-flex; align-items: center; justify-content: center; font-size: 2rem; margin-bottom: 1rem; }
+  h1 { font-size: 2rem; margin: 0.25rem 0 0.5rem; }
+  .tagline { color: var(--muted); font-size: 1.05rem; margin: 0; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 1.5rem; margin: 1.25rem 0; }
+  .card h2 { font-size: 1.15rem; margin: 0 0 0.75rem; }
+  ol.steps { margin: 0; padding-left: 1.25rem; }
+  ol.steps li { margin: 0.6rem 0; }
+  ul.ticks { list-style: none; margin: 0; padding: 0; }
+  ul.ticks li { margin: 0.5rem 0; padding-left: 1.75rem; position: relative; }
+  ul.ticks li::before { content: "✓"; position: absolute; left: 0; color: #25f4ee; font-weight: bold; }
+  .muted { color: var(--muted); }
+  footer { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.9rem; text-align: center; }
+  footer a { color: var(--text); margin: 0 0.6rem; }
+  a { color: #25f4ee; }
+  /* OAuth callback panel */
+  #callback { display: none; text-align: center; }
+  #callback .card { text-align: left; }
+  #codebox { font-family: ui-monospace, Menlo, Consolas, monospace; background: #0a0a0f; border: 1px dashed var(--line); border-radius: 10px; padding: 1rem; word-break: break-all; font-size: 0.85rem; margin: 1rem 0; }
+  button { background: var(--accent); color: #fff; border: 0; border-radius: 10px; padding: 0.8rem 1.6rem; font-size: 1rem; cursor: pointer; }
+  button:hover { opacity: 0.9; }
+  .ok { color: #25f4ee; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="landing">
+    <header>
+      <div class="logo">▶</div>
+      <h1>Studio Publisher</h1>
+      <p class="tagline">A personal tool to schedule and publish your own TikTok videos — nothing posts without your per-post approval.</p>
+    </header>
+
+    <div class="card">
+      <h2>How it works</h2>
+      <ol class="steps">
+        <li><strong>Connect</strong> your TikTok account through TikTok's official login. You approve exactly what the app may do, and you can revoke access anytime from TikTok Settings.</li>
+        <li><strong>Queue</strong> a video with its caption, hashtags, and posting time.</li>
+        <li><strong>Approve</strong> each post individually — nothing is published without your explicit approval.</li>
+        <li>The tool <strong>publishes</strong> approved posts at their scheduled time via TikTok's official Content Posting API.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2>Every post carries</h2>
+      <ul class="ticks">
+        <li>TikTok's <strong>AI-generated content label</strong> on AI-made videos</li>
+        <li><strong>Public</strong> visibility, with comments, Duet and Stitch enabled</li>
+        <li>Your caption and hashtags, exactly as you wrote them</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Your data</h2>
+      <p class="muted" style="margin:0">The app stores your TikTok login tokens only to publish the posts you approve. Tokens are never sold, never shared, and never used for anything else. Disconnect the app anytime in TikTok's Settings &gt; Security &gt; Manage app permissions.</p>
+    </div>
+
+    <footer>
+      <a href="https://drive.google.com/file/d/1NGSwU5c347cAppDXO2ZerwteeNbpBjAJ/view?usp=drivesdk">Terms of Service</a>
+      <a href="https://drive.google.com/file/d/1kFoDSxCpA0Ew7PBDkQGxkSQpff5Y0RVL/view?usp=drivesdk">Privacy Policy</a>
+      <div style="margin-top:0.75rem">Contact: marikitsoriano329@gmail.com</div>
+      <div style="margin-top:0.5rem">© 2026 Studio Publisher · Personal use tool</div>
+    </footer>
+  </div>
+
+  <div id="callback">
+    <header>
+      <div class="logo">✓</div>
+      <h1>Authorization <span class="ok">successful</span></h1>
+      <p class="tagline">Copy the code below and paste it back in the chat where you started.</p>
+    </header>
+    <div class="card">
+      <div id="codebox"></div>
+      <div style="text-align:center"><button id="copybtn" type="button">Copy code</button></div>
+      <p class="muted" style="margin-bottom:0; font-size:0.9rem">This code expires in a few minutes. If it stops working, just authorize again.</p>
+    </div>
+  </div>
+
+</div>
+<script>
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  var code = params.get("code");
+  if (code) {
+    document.getElementById("landing").style.display = "none";
+    document.getElementById("callback").style.display = "block";
+    document.getElementById("codebox").textContent = code;
+    document.getElementById("copybtn").addEventListener("click", function () {
+      var done = function () {
+        var b = document.getElementById("copybtn");
+        b.textContent = "Copied!";
+        setTimeout(function () { b.textContent = "Copy code"; }, 2000);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).then(done, done);
+      } else {
+        var t = document.createElement("textarea");
+        t.value = code; document.body.appendChild(t); t.select();
+        try { document.execCommand("copy"); } catch (e) {}
+        document.body.removeChild(t); done();
+      }
+    });
+  }
+})();
+</script>
+</body>
+</html>
